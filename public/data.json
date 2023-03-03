@@ -4,7 +4,7 @@
     "thumbnail": {
       "trending": {
         "small": "./assets/thumbnails/beyond-earth/trending/small.jpg",
-        "large": "./assets/thumbnails/beyond-earth/trending/large.jpg"
+        "large": "/assets/thumbnails/beyond-earth/trending/large.jpg"
       },
       "regular": {
         "small": "./assets/thumbnails/beyond-earth/regular/small.jpg",

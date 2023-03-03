@@ -1,5 +1,5 @@
 // Dependencies
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme, secondaryTheme } from './theme';
 import styled from 'styled-components';
@@ -28,7 +28,11 @@ function App() {
     name: 'default',
     variant: themeVariants.default,
   });
+  const [data, setData] = useState<any>(null);
+  const [dataFetched, setDataFetched] = useState(false);
+  const initialDataRef = useRef<any>(null);
 
+  // change theme to light or dark
   const changeTheme = () => {
     setTheme((_prevTheme) => {
       if (_prevTheme.name === 'default')
@@ -41,6 +45,7 @@ function App() {
     });
   };
 
+  // layout component
   const Layout = () => {
     return (
       <AppContainer className="App">
@@ -54,6 +59,38 @@ function App() {
     );
   };
 
+  // fetch data
+  const fetchData = useCallback(async () => {
+    const response = await fetch('../data.json');
+
+    if (response.status !== 200) {
+      console.log(
+        Error(
+          'Error fetching data, response status:' + response.status
+        )
+      );
+
+      return;
+    }
+
+    if (response.status === 200) {
+      const data = await response.json();
+
+      initialDataRef.current = data;
+      setData(data);
+
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataFetched) return;
+
+    fetchData();
+
+    setDataFetched(true);
+  }, [fetchData, setDataFetched, dataFetched]);
+
   return (
     <ThemeProvider theme={theme.variant}>
       <ThemeSwitcherButton
@@ -63,7 +100,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home data={data} />} />
           <Route path="movies" element={<Movies />} />
           <Route path="tv" element={<TV />} />
           <Route path="bookmark" element={<Bookmark />} />
