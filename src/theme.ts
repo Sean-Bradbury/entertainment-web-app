@@ -41,35 +41,35 @@ export const defaultTheme: DefaultTheme = {
     palette: {
         primary: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         secondary: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         background: {
             dark: '#10141E',
             light: '#161D2F',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         standard: {
-            white: '#fff',
+            white: '#ffffff',
         },
         error: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         warning: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         info: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         success: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
     },
     fonts: fontsObj,
@@ -82,11 +82,11 @@ export const secondaryTheme: DefaultTheme = {
     palette: {
         primary: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         secondary: {
             main: '#5A698F',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         background: {
             dark: '#eeeeee',
@@ -94,23 +94,23 @@ export const secondaryTheme: DefaultTheme = {
             contrastText: '#000',
         },
         standard: {
-            white: '#fff',
+            white: '#ffffff',
         },
         error: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         warning: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         info: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
         success: {
             main: '#FC4747',
-            contrastText: '#fff',
+            contrastText: '#ffffff',
         },
     },
     fonts: fontsObj,
