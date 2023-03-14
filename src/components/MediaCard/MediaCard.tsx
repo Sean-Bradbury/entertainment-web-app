@@ -67,7 +67,7 @@ const TrendingMediaCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 470px;
+  min-width: 470px;
   height: 230px;
   padding: 1rem;
   background-size: cover;

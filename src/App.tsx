@@ -15,6 +15,9 @@ import Bookmark from './pages/Bookmark';
 import ThemeSwitcherButton from './components/interface/ThemeSwitcherButton/';
 import Menu from './components/Menu';
 
+// Context
+import { useDataContext } from './context/DataContext/DataContextProvider';
+
 //Styles
 import './App.css';
 
@@ -24,13 +27,12 @@ const themeVariants = {
 };
 
 function App() {
+  const { data, dataFetched, setDataFetched, fetchData } =
+    useDataContext();
   const [theme, setTheme] = useState({
     name: 'default',
     variant: themeVariants.default,
   });
-  const [data, setData] = useState<any>(null);
-  const [dataFetched, setDataFetched] = useState(false);
-  const initialDataRef = useRef<any>(null);
 
   // change theme to light or dark
   const changeTheme = () => {
@@ -58,30 +60,6 @@ function App() {
       </AppContainer>
     );
   };
-
-  // fetch data
-  const fetchData = useCallback(async () => {
-    const response = await fetch('../data.json');
-
-    if (response.status !== 200) {
-      console.log(
-        Error(
-          'Error fetching data, response status:' + response.status
-        )
-      );
-
-      return;
-    }
-
-    if (response.status === 200) {
-      const data = await response.json();
-
-      initialDataRef.current = data;
-      setData(data);
-
-      return;
-    }
-  }, []);
 
   useEffect(() => {
     if (dataFetched) return;
@@ -121,6 +99,9 @@ const AppContainer = styled.div`
   }
   .App__main {
     padding: 1.5rem;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
   }
 `;
 
