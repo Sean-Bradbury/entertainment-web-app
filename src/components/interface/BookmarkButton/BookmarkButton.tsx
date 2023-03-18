@@ -20,6 +20,7 @@ const BookmarkButton = ({
   // Handles the checkbox state
   const handleCheckbox = () => {
     setIsBookmarkedState(!isBookmarkedState);
+    callback();
   };
 
   return (

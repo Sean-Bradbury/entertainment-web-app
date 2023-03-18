@@ -1,5 +1,5 @@
 // Dependencies
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme, secondaryTheme } from './theme';
 import styled from 'styled-components';
@@ -27,8 +27,7 @@ const themeVariants = {
 };
 
 function App() {
-  const { data, dataFetched, setDataFetched, fetchData } =
-    useDataContext();
+  const { dataFetched, setDataFetched, fetchData } = useDataContext();
   const [theme, setTheme] = useState({
     name: 'default',
     variant: themeVariants.default,
@@ -47,19 +46,33 @@ function App() {
     });
   };
 
-  // layout component
-  const Layout = () => {
+  // memoize routes component
+  const RoutesComponent = useMemo(() => {
+    // layout component
+    const Layout = () => {
+      return (
+        <AppContainer className="App">
+          <header className="App__menu">
+            <Menu themeName={theme.name} />
+          </header>
+          <main className="App__main">
+            <Outlet />
+          </main>
+        </AppContainer>
+      );
+    };
+
     return (
-      <AppContainer className="App">
-        <header className="App__menu">
-          <Menu themeName={theme.name} />
-        </header>
-        <main className="App__main">
-          <Outlet />
-        </main>
-      </AppContainer>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="movies" element={<Movies />} />
+          <Route path="tv" element={<TV />} />
+          <Route path="bookmark" element={<Bookmark />} />
+        </Route>
+      </Routes>
     );
-  };
+  }, [theme.name]);
 
   useEffect(() => {
     if (dataFetched) return;
@@ -75,15 +88,7 @@ function App() {
         theme={theme.name === 'default' ? 'dark' : 'light'}
         changeTheme={changeTheme}
       />
-
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home data={data} />} />
-          <Route path="movies" element={<Movies />} />
-          <Route path="tv" element={<TV />} />
-          <Route path="bookmark" element={<Bookmark />} />
-        </Route>
-      </Routes>
+      {RoutesComponent}
     </ThemeProvider>
   );
 }

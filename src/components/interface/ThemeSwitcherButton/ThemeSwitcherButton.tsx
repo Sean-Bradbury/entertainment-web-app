@@ -1,27 +1,28 @@
 // Dependencies
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 
 // Icons
 import { MoonIcon, SunIcon } from './icons';
 
 export interface IThemeSwitcherBtnProps {
-    theme: 'light' | 'dark';
-    changeTheme: () => void;
+  theme: 'light' | 'dark';
+  changeTheme: () => void;
 }
 
-export default function ThemeSwitcherBtn ({theme, changeTheme}: IThemeSwitcherBtnProps) {
+export default function ThemeSwitcherBtn({
+  theme,
+  changeTheme,
+}: IThemeSwitcherBtnProps) {
   // Return the correct icon based on the theme
   const returnIcon = useMemo(() => {
-    if(theme === 'light') return <SunIcon />;
+    if (theme === 'light') return <SunIcon />;
 
     return <MoonIcon />;
   }, [theme]);
 
   return (
-    <SwitcherBtn onClick={changeTheme}>
-        {returnIcon}
-    </SwitcherBtn>
+    <SwitcherBtn onClick={changeTheme}>{returnIcon}</SwitcherBtn>
   );
 }
 
@@ -36,16 +37,17 @@ const SwitcherBtn = styled.button`
   cursor: pointer;
   outline: none;
   padding: 1rem;
-  position: absolute;
+  position: fixed;
   right: 1rem;
   bottom: 1rem;
+  z-index: 1;
   transition: all 0.3s ease-in-out;
   &::before {
     position: absolute;
     content: '';
     width: 100%;
     height: 100%;
-    z-index: 0 ;
+    z-index: 0;
     background-color: ${(props) => props.theme.palette.primary.main};
   }
   &:hover {
@@ -60,4 +62,3 @@ const SwitcherBtn = styled.button`
     z-index: 1;
   }
 `;
-

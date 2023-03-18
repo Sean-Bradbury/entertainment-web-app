@@ -1,6 +1,6 @@
 import { DefaultTheme } from "styled-components";
 
-const fontsObj = {
+export const fontsObj = {
     headingL: {
         fontFamily: 'Outfit, sans-serif',
         fontSize: '32px',
