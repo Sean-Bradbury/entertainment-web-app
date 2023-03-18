@@ -142,9 +142,9 @@ const MediaCardDefault = styled.div`
       }
     }
     .bottom-title {
-      font-family: ${({ theme }) => theme.fonts.headingS.fontFamily};
-      font-size: ${({ theme }) => theme.fonts.headingS.fontSize};
-      font-weight: ${({ theme }) => theme.fonts.headingS.fontWeight};
+      font-family: ${({ theme }) => theme.fonts.headingXS.fontFamily};
+      font-size: ${({ theme }) => theme.fonts.headingXS.fontSize};
+      font-weight: ${({ theme }) => theme.fonts.headingXS.fontWeight};
     }
   }
 `;
