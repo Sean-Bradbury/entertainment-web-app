@@ -5,10 +5,13 @@ import * as React from 'react';
 import {
   Home,
   Movies,
+  MovieSvg,
   TV,
   Bookmark,
   BookmarkEmpty,
   BookmarkFull,
+  Play,
+  Search,
 } from './Icons/icons';
 
 export interface IIconProps {
@@ -17,6 +20,8 @@ export interface IIconProps {
 
 export default function Icon({ type }: IIconProps): JSX.Element {
   switch (type) {
+    case 'movie-svg':
+      return <MovieSvg />;
     case 'home':
       return <Home />;
     case 'movies':
@@ -29,6 +34,10 @@ export default function Icon({ type }: IIconProps): JSX.Element {
       return <BookmarkEmpty />;
     case 'bookmark-full':
       return <BookmarkFull />;
+    case 'play':
+      return <Play />;
+    case 'search':
+      return <Search />;
     default:
       return <Home />;
   }

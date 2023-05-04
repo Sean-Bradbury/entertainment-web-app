@@ -7,12 +7,14 @@ import Icon from '../../../components/Icon/Icon';
 
 export interface IBookmarkButtonProps {
   isBookmarked: boolean;
+  className?: string;
   callback: () => void;
 }
 
 const BookmarkButton = ({
   isBookmarked,
   callback,
+  className,
 }: IBookmarkButtonProps) => {
   const [isBookmarkedState, setIsBookmarkedState] =
     useState(isBookmarked);
@@ -24,7 +26,7 @@ const BookmarkButton = ({
   };
 
   return (
-    <Bookmark className="bookmark" aria-label="bookmark-label">
+    <div className={className}>
       <input
         type="checkbox"
         checked={isBookmarkedState}
@@ -33,11 +35,11 @@ const BookmarkButton = ({
       <Icon
         type={isBookmarkedState ? 'bookmark-full' : 'bookmark-empty'}
       />
-    </Bookmark>
+    </div>
   );
 };
 
-const Bookmark = styled.label`
+const StyledBookmark = styled(BookmarkButton)`
   position: relative;
   display: flex;
   justify-content: center;
@@ -48,6 +50,21 @@ const Bookmark = styled.label`
   background-color: ${({ theme }) =>
     theme.palette.background.light}80;
   cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.palette.standard.white};
+    svg {
+      path {
+        fill: ${({ theme, isBookmarked }) => {
+          if (!isBookmarked) {
+            return theme.palette.background.contrastText;
+          }
+
+          return theme.palette.background.light;
+        }};
+        stroke: #000;
+      }
+    }
+  }
   input {
     position: absolute;
     opacity: 0;
@@ -57,4 +74,4 @@ const Bookmark = styled.label`
   }
 `;
 
-export default BookmarkButton;
+export default StyledBookmark;

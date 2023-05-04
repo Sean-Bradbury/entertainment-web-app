@@ -12,6 +12,9 @@ type DataContextType = {
   dataFetched: boolean;
   setDataFetched: React.Dispatch<React.SetStateAction<boolean>>;
   fetchData: () => Promise<void>;
+  handleSearch: any;
+  searchedData: any;
+  searchValue: string;
 };
 
 export const DataContext = createContext<DataContextType>(
@@ -21,6 +24,8 @@ export const DataContext = createContext<DataContextType>(
 export const DataContextProvider = ({ children }: any) => {
   const [data, setData] = useState<any>(null);
   const [dataFetched, setDataFetched] = useState<boolean>(false);
+  const [searchedData, setSearchedData] = useState<any>(null);
+  const [searchValue, setSearchValue] = useState<any>('');
 
   const fetchData = useCallback(async () => {
     const response = await fetch('../data.json');
@@ -40,6 +45,19 @@ export const DataContextProvider = ({ children }: any) => {
     }
   }, []);
 
+  const handleSearch = (searchData: any, value: string) => {
+    const newSearchData = searchData.filter((item: any) => {
+      return item.title.toLowerCase().includes(value.toLowerCase());
+    });
+
+    if (value === '') {
+      setSearchedData(null);
+    } else {
+      setSearchedData(newSearchData);
+      setSearchValue(value);
+    }
+  };
+
   useEffect(() => {
     if (dataFetched) return;
 
@@ -56,6 +74,9 @@ export const DataContextProvider = ({ children }: any) => {
         dataFetched,
         setDataFetched,
         fetchData,
+        handleSearch,
+        searchedData,
+        searchValue,
       }}
     >
       {children}

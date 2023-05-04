@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 // Components
 import BookmarkButton from '../interface/BookmarkButton/';
+import Icon from '../Icon/Icon';
 
 // Hooks
 import HandleBookmarkItem from '../../hooks/HandleBookmarkItem';
@@ -44,6 +45,11 @@ const MediaCard = ({
   section,
 }: IMediaCardProps): JSX.Element => {
   const [bookmarkItem] = HandleBookmarkItem();
+  const [hoverActive, setHoverActive] = React.useState(false);
+
+  const handleActiveCard = (state: boolean) => {
+    setHoverActive(state);
+  };
 
   if (section === 'trending')
     return (
@@ -51,6 +57,8 @@ const MediaCard = ({
         style={{
           backgroundImage: `url(${thumbnail?.trending?.large})`,
         }}
+        onMouseOver={() => handleActiveCard(true)}
+        onMouseLeave={() => handleActiveCard(false)}
       >
         <div className="top">
           <BookmarkButton
@@ -66,11 +74,20 @@ const MediaCard = ({
           </div>
           <div className="bottom-title">{title}</div>
         </div>
+        <PlayButton href="#" className={!hoverActive ? 'hide' : ''}>
+          <div>
+            <Icon type="play" />
+          </div>
+          <span>Play</span>
+        </PlayButton>
       </TrendingMediaCard>
     );
 
   return (
-    <MediaCardDefault>
+    <MediaCardDefault
+      onMouseOver={() => handleActiveCard(true)}
+      onMouseLeave={() => handleActiveCard(false)}
+    >
       <div
         className="top"
         style={{
@@ -83,6 +100,12 @@ const MediaCard = ({
             callback={() => bookmarkItem(title)}
           />
         </div>
+        <PlayButton href="#" className={!hoverActive ? 'hide' : ''}>
+          <div>
+            <Icon type="play" />
+          </div>
+          <span>Play</span>
+        </PlayButton>
       </div>
       <div className="bottom">
         <div className="bottom-info">
@@ -98,6 +121,7 @@ const MediaCard = ({
 
 const MediaCardDefault = styled.div`
   .top {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -109,6 +133,21 @@ const MediaCardDefault = styled.div`
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
+    overflow: hidden;
+    color: ${({ theme }) => theme.palette.background.contrastText};
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &:hover {
+      ::before {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    }
     .top__bookmark-area {
       display: flex;
       justify-content: flex-end;
@@ -119,7 +158,7 @@ const MediaCardDefault = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     gap: 0.5rem;
-    color: #fff;
+    color: ${({ theme }) => theme.palette.background.contrastText};
     &-info {
       opacity: 0.75;
       span {
@@ -150,6 +189,7 @@ const MediaCardDefault = styled.div`
 `;
 
 const TrendingMediaCard = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -160,6 +200,21 @@ const TrendingMediaCard = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 10px;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    ::before {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  color: ${({ theme }) => theme.palette.background.contrastText};
   .top {
     display: flex;
     justify-content: flex-end;
@@ -170,6 +225,7 @@ const TrendingMediaCard = styled.div`
     flex-direction: column;
     gap: 0.5rem;
     color: #fff;
+    z-index: 1;
     &-info {
       opacity: 0.75;
       span {
@@ -196,6 +252,33 @@ const TrendingMediaCard = styled.div`
       font-size: ${({ theme }) => theme.fonts.headingS.fontSize};
       font-weight: ${({ theme }) => theme.fonts.headingS.fontWeight};
     }
+  }
+`;
+
+const PlayButton = styled.a`
+  display: flex;
+  justify-content: center;
+  alignd-items: center;
+  gap: 0.5rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 117px;
+  height: 48px;
+  border: none;
+  border-radius: 28px;
+  background-color: rgba(250, 250, 250, 0.25);
+  font-family: ${({ theme }) => theme.fonts.headingXS.fontFamily};
+  font-size: ${({ theme }) => theme.fonts.headingXS.fontSize};
+  font-weight: ${({ theme }) => theme.fonts.headingXS.fontWeight};
+  color: ${({ theme }) => theme.palette.standard.white};
+  * {
+    display: flex;
+    align-items: center;
+  }
+  &.hide {
+    display: none;
   }
 `;
 

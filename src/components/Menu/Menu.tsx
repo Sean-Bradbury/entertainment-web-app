@@ -1,10 +1,7 @@
 // Dependencies
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-
-// Icons
-import MovieIcon from './Movie.svg';
 
 // Images
 import user from './user.png';
@@ -17,19 +14,10 @@ export interface IMenuProps {
 }
 
 const Menu = ({ themeName }: IMenuProps) => {
-  const returnActiveNavColor = useMemo(() => {
-    return themeName === 'default' ? '#fff' : '#000';
-  }, [themeName]);
-
   return (
     <Nav className="menu" aria-label="main menu">
       <div className="menu__area-one">
-        <img
-          className="menu__movie-icon"
-          src={MovieIcon}
-          alt="Movie Icon"
-          aria-label="Movie Icon"
-        />
+        <Icon type="movie-svg" />
       </div>
       <nav className="menu__area-two">
         <NavLink
@@ -94,7 +82,8 @@ const Nav = styled.nav`
     }
     a.navlink.active {
       svg path {
-        fill: #fff;
+        fill: ${(props) =>
+          props.theme.palette.background.contrastText};
       }
     }
     a.navlink:hover {
@@ -113,6 +102,9 @@ const Nav = styled.nav`
     gap: 3rem;
     width: 70px;
     height: calc(100vh - 2rem);
+    position: fixed;
+    margin: 0 1rem;
+    top: 1rem;
     .menu__area-two {
       flex-direction: inherit;
       justify-self: flex-start;

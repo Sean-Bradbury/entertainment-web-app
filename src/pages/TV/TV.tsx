@@ -5,6 +5,8 @@ import styled from 'styled-components';
 // Components
 import MediaCard from '../../components/MediaCard/';
 import Heading from '../../components/Heading';
+import RecommendedSection from '../../components/RecommendedSection';
+import Search from '../../components/interface/Search';
 
 // Context
 import { useDataContext } from '../../context/DataContext/DataContextProvider';
@@ -12,18 +14,40 @@ import { useDataContext } from '../../context/DataContext/DataContextProvider';
 export interface ITVProps {}
 
 const TV = (props: ITVProps) => {
-  const { data } = useDataContext();
+  const { data, searchValue, searchedData } = useDataContext();
 
   return (
     <TVContainer>
-      <Heading type="hl">TV Series</Heading>
-      <TVSection>
-        {data?.map((item: any) => {
-          if (item.category === 'Movie') return null;
+      <Search
+        placeholder="Search for a TV Series"
+        data={data.filter(
+          (item: any) => item?.category === 'TV Series'
+        )}
+      />
+      {searchedData?.length >= 0 ? (
+        <>
+          <Heading type="hl">
+            Found {searchedData.length} results for{' '}
+            {`'${searchValue}'`}
+          </Heading>
+          <RecommendedSection>
+            {searchedData?.map((item: any) => {
+              return <MediaCard item={item} key={item.title} />;
+            })}
+          </RecommendedSection>
+        </>
+      ) : (
+        <>
+          <Heading type="hl">TV Series</Heading>
+          <RecommendedSection>
+            {data?.map((item: any) => {
+              if (item.category === 'Movie') return null;
 
-          return <MediaCard item={item} key={item.title} />;
-        })}
-      </TVSection>
+              return <MediaCard item={item} key={item.title} />;
+            })}
+          </RecommendedSection>
+        </>
+      )}
     </TVContainer>
   );
 };
@@ -32,18 +56,6 @@ const TVContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-
-const TVSection = styled.section`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 40px;
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
 `;
 
 export default TV;

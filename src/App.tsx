@@ -27,7 +27,8 @@ const themeVariants = {
 };
 
 function App() {
-  const { dataFetched, setDataFetched, fetchData } = useDataContext();
+  const { dataFetched, setDataFetched, fetchData, searchedData } =
+    useDataContext();
   const [theme, setTheme] = useState({
     name: 'default',
     variant: themeVariants.default,
@@ -99,14 +100,17 @@ const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
   .App__main {
     padding: 1.5rem;
     display: flex;
     width: 100%;
     overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    flex-direction: row;
+    .App__main {
+      margin-left: calc(70px + 1.5rem);
+    }
   }
 `;
 

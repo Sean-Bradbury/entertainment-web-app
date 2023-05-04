@@ -94,7 +94,7 @@ export const secondaryTheme: DefaultTheme = {
             contrastText: '#000',
         },
         standard: {
-            white: '#ffffff',
+            white: '#000000',
         },
         error: {
             main: '#FC4747',

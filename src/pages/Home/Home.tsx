@@ -5,6 +5,8 @@ import styled from 'styled-components';
 // Components
 import MediaCard from '../../components/MediaCard/';
 import Heading from '../../components/Heading';
+import Search from '../../components/interface/Search';
+import RecommendedSection from '../../components/RecommendedSection';
 
 // Context
 import { useDataContext } from '../../context/DataContext/DataContextProvider';
@@ -12,7 +14,7 @@ import { useDataContext } from '../../context/DataContext/DataContextProvider';
 export interface IHomeProps {}
 
 const Home = (props: IHomeProps) => {
-  const { data } = useDataContext();
+  const { data, searchedData, searchValue } = useDataContext();
 
   /**
    * Handle wheel event on trending section
@@ -31,26 +33,46 @@ const Home = (props: IHomeProps) => {
 
   return (
     <HomeContainer>
-      <Heading type="hl">Trending</Heading>
-      <TrendingSection onWheel={(e) => handleWheel(e)}>
-        {data?.map((item: any) => {
-          if (!item.isTrending) return null;
+      <Search
+        placeholder="Search for Movies or TV Series"
+        data={data}
+      />
+      {searchedData?.length >= 0 ? (
+        <>
+          <Heading type="hl">
+            Found {searchedData.length} results for{' '}
+            {`'${searchValue}'`}
+          </Heading>
+          <RecommendedSection>
+            {searchedData?.map((item: any) => {
+              return <MediaCard item={item} key={item.title} />;
+            })}
+          </RecommendedSection>
+        </>
+      ) : (
+        <>
+          <Heading type="hl">Trending</Heading>
+          <TrendingSection onWheel={(e) => handleWheel(e)}>
+            {data?.map((item: any) => {
+              if (!item.isTrending) return null;
 
-          return (
-            <MediaCard
-              item={item}
-              key={item.title}
-              section="trending"
-            />
-          );
-        })}
-      </TrendingSection>
-      <Heading type="hl">Recommended for you</Heading>
-      <RecommendedSection>
-        {data?.map((item: any) => {
-          return <MediaCard item={item} key={item.title} />;
-        })}
-      </RecommendedSection>
+              return (
+                <MediaCard
+                  item={item}
+                  key={item.title}
+                  section="trending"
+                />
+              );
+            })}
+          </TrendingSection>
+          <Heading type="hl">Recommended for you</Heading>
+          <RecommendedSection>
+            {data?.map((item: any) => {
+              return <MediaCard item={item} key={item.title} />;
+            })}
+          </RecommendedSection>
+        </>
+      )}
     </HomeContainer>
   );
 };
@@ -72,18 +94,6 @@ const TrendingSection = styled.section`
   }
   -ms-overflow-style: none;
   scrollbar-width: none;
-`;
-
-const RecommendedSection = styled.section`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 40px;
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
 `;
 
 export default Home;
