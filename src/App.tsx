@@ -27,8 +27,7 @@ const themeVariants = {
 };
 
 function App() {
-  const { dataFetched, setDataFetched, fetchData, searchedData } =
-    useDataContext();
+  const { dataFetched, setDataFetched, fetchData } = useDataContext();
   const [theme, setTheme] = useState({
     name: 'default',
     variant: themeVariants.default,
